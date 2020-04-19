@@ -138,6 +138,7 @@ body.addEventListener('click', (event) => {
   if(event.target.id ==='play-game'){
     game()
     event.target.removeAttribute('id');
+    
   }
   if (event.target.tagName === 'A' || event.target.tagName === 'IMG') {
     scoreContainer.innerHTML = '';
