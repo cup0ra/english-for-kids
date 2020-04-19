@@ -116,11 +116,11 @@ document.getElementById('toggle').addEventListener('change', (event) => {
 
 });
 
-const isGame = false;
 
 
 
-    // Первое аудио запускаем
+
+    
  
  
    
@@ -136,8 +136,8 @@ const isGame = false;
 body.addEventListener('click', (event) => {
   console.log(event.target.className)
   if(event.target.id ==='play-game'){
-   
     game()
+    event.target.removeAttribute('id');
   }
   if (event.target.tagName === 'A' || event.target.tagName === 'IMG') {
     scoreContainer.innerHTML = '';
@@ -209,7 +209,7 @@ body.addEventListener('mousedown', (event) => {
 
 
 function game(){
- 
+  let isGame = true;
   const audioElement = [];
   const elems = document.getElementsByClassName('audio');
   for(let i=0; i < elems.length; i+=1){
@@ -219,32 +219,34 @@ function game(){
   return Math.random() - 0.5;
   })
 
-let counter = 0;
+
 let counterStar = 0;
 function playAudio(){
   const myAudio = new Audio;
-  myAudio.src = audioElement[counter].src;
+  myAudio.src = audioElement[audioElement.length-1].src;
   myAudio.play()
   }
   setTimeout(playAudio(),3000)
-
+  
 container.addEventListener('click', (event)=>{
   console.log(event.target.className)
-  if(event.target.className === 'front game'){
-    if (counter < 7){
-  if (audioElement[counter].dataset.word === event.target.id){
+  if(event.target.className === 'front game' && isGame === true){
+    if (audioElement.length > 1){
+  if (audioElement[audioElement.length-1].dataset.word === event.target.id){
    
-      console.log(audioElement[counter].dataset.word)
+      console.log(audioElement[audioElement.length-1].dataset.word)
       event.target.parentNode.parentNode.classList.add('press')
       const ok = new Audio('audio/correct.mp3')
        ok.play();
        const starWin = document.createElement('div');
        starWin.className='star-win';
        scoreContainer.append(starWin);
-       counter +=1;
+       audioElement.pop();
+       
+        
       setTimeout(playAudio(),3000)
-      
-      console.log(counter)
+     
+   
     
     }
  
@@ -255,32 +257,33 @@ container.addEventListener('click', (event)=>{
       star.className='star';
       scoreContainer.append(star);
       counterStar += 1;
-      console.log(counterStar)
+    
     }
 
   
 
-  } else if (counter === 7){
-  if(counterStar === 0){
+  } else if (audioElement.length === 1){
+    if (counterStar>0){
+      container.innerHTML = ''
+      container.innerHTML = `<img class="failure" src="img/failure.jpg"><h2>${ counterStar }ERROR</h2>`
+      const failure = new Audio('audio/failure.mp3')
+      failure.play();
+      setTimeout(main,3000 )
+      isGame = false;
+    }
+  else {
     container.innerHTML = ''
     container.innerHTML = '<img class="failure" src="img/success.jpg">'
     const success = new Audio('audio/success.mp3')
     success.play();
     setTimeout(main,3000 )
-
+    isGame = false;
   
-  }else {
-  container.innerHTML = ''
-  container.innerHTML = '<img class="failure" src="img/failure.jpg">'
-  const failure = new Audio('audio/failure.mp3')
-  failure.play();
-  setTimeout(main,3000 )
-  
-}
   }
-  return false
+  }
+
 }
-return false
+
 })
 
 }
