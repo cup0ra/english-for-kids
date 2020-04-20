@@ -1,53 +1,20 @@
-/* eslint-disable no-use-before-define */
-/* eslint-disable no-shadow */
-/* eslint-disable import/extensions */
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-unused-vars */
-/* eslint-disable no-const-assign */
+/* eslint-disable no-use-before-define */
+/* eslint-disable import/extensions */
+
+
 import '../css/style.css';
 import '../css/style.scss';
-
 import {actions,actions2,animals,animals2,clothes,emotions,food,itemes} from './cards.js';
 
 
-
-
-
-
-const MENU = document.getElementById('menu');
 const containerCategory = document.getElementById('container');
 const container = document.querySelector('main');
 const scoreContainer = document.getElementById('score-container')
 const war = containerCategory.parentNode.removeChild(containerCategory);
 container.append(war);
-const MenuToggle = document.getElementById('menu__toggle');
 const body = document.querySelector('body');
-
-      MenuToggle.addEventListener('click',(event) => {
-          document.getElementById('menu').classList.toggle('active-burger');
-          document.getElementById('menu-block').classList.toggle('hidden');
-          document.getElementById('menu__toggle').style.transform = 'rotate(90deg)';
-      
-      MENU.addEventListener('click',(event) => {
-          if (event.target.tagName === 'A'){ 
-              document.getElementById('menu-block').classList.add('hidden');
-              document.getElementById('menu__toggle').checked = 0;
-      
-          }
-      });
-      });
-const closeBurger = document.getElementById('menu-block');
-      closeBurger.addEventListener('click',(event) =>{
-          document.getElementById('menu-block').classList.add('hidden');
-          document.getElementById('menu__toggle').checked = 0;
-         
-      });
-
-
-
-
-
-
-
 
 
 class Card {
@@ -71,8 +38,8 @@ class Card {
       const button = document.createElement('div');
       button.id = 'play-game';
       button.className = 'play';
-      container.appendChild(button);
-      
+      button.innerText = 'Start Game'
+      container.appendChild(button); 
     } else{
         state.forEach ((e) => {
         const cards = document.createElement('div');
@@ -91,67 +58,57 @@ class Card {
             <h3>${  e.translation  }</h3>
             </div>
             </div>
-           
           </div>`;
           container.append(cards);
         });
-      }
-   
-    
-    
-      
+      }  
    }
- 
 }
-const items = document.getElementsByClassName('container-category__item');
-document.getElementById('toggle').addEventListener('change', (event) => {
+
+document.getElementById('toggle').addEventListener('change', () => {
   container.innerHTML = '';
       container.appendChild(war);
+      scoreContainer.innerHTML=''
   document.getElementById('menu').classList.toggle('container-category__item-game')
   const elements = document.getElementsByClassName("container-category__item")
  elements.forEach((e) => {
       e.classList.toggle('container-category__item-game');
-  
   });
-
 });
-
-
-
-
-
-    
- 
- 
-   
    function main(){
     container.innerHTML = '';
     container.appendChild(war);
     scoreContainer.innerHTML=''
    }
 
-
-
-
 body.addEventListener('click', (event) => {
-  console.log(event.target.className)
+  if (event.target.id === 'menu__toggle'){
+    document.getElementById('menu').classList.toggle('active-burger');
+    document.getElementById('menu-block').classList.toggle('hidden');
+    document.getElementById('menu__toggle').style.transform = 'rotate(90deg)';
+  }
+  if(event.target.id === 'menu-block' ){
+    document.getElementById('menu-block').classList.add('hidden');
+   document.getElementById('menu__toggle').checked = 0;
+  }
   if(event.target.id ==='play-game'){
     game()
     event.target.removeAttribute('id');
-    
+    event.target.classList.remove('play')
+    event.target.classList.add('repeat')
+    event.target.innerText = "";
   }
   if (event.target.tagName === 'A' || event.target.tagName === 'IMG') {
-    scoreContainer.innerHTML = '';
-    console.log(event.target.id);
+    document.getElementById('menu-block').classList.add('hidden');
+    document.getElementById('menu__toggle').checked = 0;
+    scoreContainer.innerHTML = ''
     if (event.target.id === 'home') {
       container.innerHTML = '';
       container.appendChild(war);
     }
     if (event.target.id === 'actions') {
-     
       container.innerHTML = '';
       const card1 = new Card(actions);
-
     }
     if (event.target.id === 'actions2') {
       container.innerHTML = '';
@@ -177,12 +134,10 @@ body.addEventListener('click', (event) => {
     if (event.target.id === 'food') {
       container.innerHTML = '';
       const card7 = new Card(food);
-      
     }
     if (event.target.id === 'items') {
       container.innerHTML = '';
       const card8 = new Card(itemes);
-      
     }
   }
   if (event.target.className === 'rotate'){
@@ -198,7 +153,6 @@ body.addEventListener('click', (event) => {
       });
   })    
 });
-
 body.addEventListener('mousedown', (event) => {
   if (event.target.className === 'front'){
     event.target.parentNode.parentNode.classList.add('press');
@@ -208,7 +162,7 @@ body.addEventListener('mousedown', (event) => {
   }
 });
 
-
+// GAME
 function game(){
   let isGame = true;
   const audioElement = [];
@@ -219,23 +173,28 @@ function game(){
   audioElement.sort(() => {
   return Math.random() - 0.5;
   })
-
-
 let counterStar = 0;
 function playAudio(){
   const myAudio = new Audio;
   myAudio.src = audioElement[audioElement.length-1].src;
   myAudio.play()
   }
-  setTimeout(playAudio(),3000)
-  
+  setTimeout(playAudio,1000)
+  body.addEventListener('click', (event)=>{
+    if (event.target.tagName === 'A' || event.target.tagName === 'IMG') {
+      isGame = false;
+    }
+  });
 container.addEventListener('click', (event)=>{
-  console.log(event.target.className)
+  if (event.target.className === 'repeat'){
+    playAudio();
+  }
   if(event.target.className === 'front game' && isGame === true){
+    if(event.target.className === 'a'){
+      isGame = false;
+    }
     if (audioElement.length > 1){
   if (audioElement[audioElement.length-1].dataset.word === event.target.id){
-   
-      console.log(audioElement[audioElement.length-1].dataset.word)
       event.target.parentNode.parentNode.classList.add('press')
       const ok = new Audio('audio/correct.mp3')
        ok.play();
@@ -243,14 +202,9 @@ container.addEventListener('click', (event)=>{
        starWin.className='star-win';
        scoreContainer.append(starWin);
        audioElement.pop();
-       
-        
-      setTimeout(playAudio(),3000)
-     
-   
-    
+       event.target.classList.add('not') 
+      setTimeout(playAudio,1000)
     }
- 
   else { 
       const bed = new Audio('audio/error.mp3')
       bed.play();
@@ -258,15 +212,11 @@ container.addEventListener('click', (event)=>{
       star.className='star';
       scoreContainer.append(star);
       counterStar += 1;
-    
     }
-
-  
-
   } else if (audioElement.length === 1){
     if (counterStar>0){
       container.innerHTML = ''
-      container.innerHTML = `<img class="failure" src="img/failure.jpg"><h2>${ counterStar }ERROR</h2>`
+      container.innerHTML = `<div class="error"><h2>${ counterStar }ERROR</h2><img class="failure" src="img/failure.jpg"></div>`
       const failure = new Audio('audio/failure.mp3')
       failure.play();
       setTimeout(main,3000 )
@@ -279,14 +229,10 @@ container.addEventListener('click', (event)=>{
     success.play();
     setTimeout(main,3000 )
     isGame = false;
-  
   }
   }
-
 }
-
 })
-
 }
 
 

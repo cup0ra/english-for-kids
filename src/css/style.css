@@ -78,7 +78,7 @@
     }
     
     .menu__btn > span{
-      background-color: #03899C;
+      background-color: #F30021;
     }
   
     .menu__btn > span,
@@ -94,12 +94,12 @@
     .menu__btn > span::before {
       content: '';
       top: -10px;
-      background-color: #03899C;
+      background-color: #F30021;
     }
     .menu__btn > span::after {
       content: '';
       top: 10px;
-      background-color: #03899C;
+      background-color: #F30021;
     }
     
     #menu__toggle:checked ~ .menu__btn  {
@@ -135,7 +135,7 @@
     }
     .menu li{
   
-      margin-bottom: 10px;
+      margin-bottom: 15px;
       margin-left: 71px !important;
     }
     .menu li a{
@@ -155,7 +155,7 @@
       margin-top:30.5%;
     }
     .menu li a:hover{
-      color:#ccc ;
+      color:#fff;
       text-shadow: 0 1px 0 #ccc, 0 0 5px rgba(0, 0, 0, 0.1),0 1px 3px rgba(0, 0, 0, 0.3);
     }
       
@@ -170,7 +170,8 @@
     font-family: 'Zubilo BlackCTT';
     font-size: 3em;
     margin-top: 20px;
-    color:#03899C;
+ 
+    color:#32BEA6;
     
    }
   .logo > span{
@@ -309,8 +310,10 @@
   }
   .score-container{
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow: hidden;
     width: 100%;
     height: 30px;
   }
@@ -395,6 +398,9 @@
     transition: .7s linear;
     
   }
+  .cards:hover{
+    cursor: pointer;
+  }
   .cards > p{
     font-family: 'Fredoka One', cursive;
     font-size: 30px;
@@ -436,7 +442,7 @@
     backface-visibility: hidden;
   }
   .game{
-    background-size:250px 200px;
+    background-size:250px 180px;
   }
   .front {
     z-index: 2;
@@ -498,18 +504,47 @@
     display: none;
   }
   .play{
-    width: 45px;
+    width: 150px;
     height: 45px;
-    border-radius: 50%;
-    background:url('../img/icons8-кнопка-воспроизведения-круглая-48.png') ;
+    border-radius: 5px;
+    background:#FF6600;
     background-size: contain;
-    text-align: center;
+    color:#fff;
+    letter-spacing: 1px ;
+    display: flex;
+	flex-direction: row-reverse;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
     margin-bottom: 50px;
+    font-family: 'Zubilo BlackCTT';
+    font-size: 23px;
     box-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
     0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
     0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
     0 20px 20px rgba(0, 0, 0, 0.15);
+  }
+  .repeat{
+    width: 45px;
+    height: 45px;
+    border-radius:50%;
+    background:url("../img/icons8red.svg");
+    background-size: contain;
+    text-align: center;
+    margin-bottom: 50px;
+    font-family: 'Zubilo BlackCTT';
+    font-size: 20px;
+    line-height: 1px;
+    box-shadow: 0 1px 0 #ccc, 0 2px 0 #c9c9c9, 0 3px 0 #bbb, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.2),
+    0 20px 20px rgba(0, 0, 0, 0.15);
+  }
+  .repeat:hover,
+  .play:hover{
+cursor: pointer;
   }
   .star-win{
     width: 30px;
@@ -542,8 +577,16 @@
   .success{
     max-width: 350px;
     height: auto;
-  
+  margin-top: 50px;
     background-size:cover;
+  }
+  .error{
+    display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: center;
+  align-items: center;
+  font-family: 'Comfortaa', cursive;
   }
   @media (min-width: 320px) and (max-width: 700px){
     .logo{
